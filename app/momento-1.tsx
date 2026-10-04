@@ -77,6 +77,10 @@ export function Momento1() {
       };
 
       const paint = () => {
+        const rect = section.getBoundingClientRect();
+        const view = window.innerHeight;
+        if (rect.bottom < 0 || rect.top > view) return;
+
         const width = canvas.width;
         const height = canvas.height;
         if (!width || !height) return;
