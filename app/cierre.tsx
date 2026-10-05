@@ -12,8 +12,23 @@ const LINES = ["Ambiente +", "sociedad +", "cultura."] as const;
 const IDEAS = [
   {
     source: "Ángel Maya · Capítulo 9",
+    text: "Pueblos enteros son abandonados y sobre ellos el bosque de abedules empieza a recuperar terreno. Era la Némesis de la naturaleza.",
+    tilt: 3.5,
+  },
+  {
+    source: "Ángel Maya · Capítulo 9",
     text: "Agotadas las posibilidades internas, las soluciones técnicas solo sirvieron cuando se ampliaron los horizontes de la explotación.",
     tilt: -4,
+  },
+  {
+    source: "Ángel Maya · Capítulo 10",
+    text: "La consolidación del capitalismo necesitaba la aparición de un Tercer Mundo.",
+    tilt: 2,
+  },
+  {
+    source: "Ángel Maya · Capítulo 10",
+    text: "La conquista de América, mirada desde el punto de vista ambiental, ha sido, posiblemente, una de las más graves equivocaciones del hombre.",
+    tilt: -3,
   },
   {
     source: "Ángel Maya · Capítulo 10",
@@ -26,6 +41,9 @@ const IDEAS = [
     tilt: -2,
   },
 ] as const;
+
+const IDEA_START = 1.6;
+const IDEA_GAP = 2.1;
 
 export function Cierre() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -62,7 +80,7 @@ export function Cierre() {
 
       IDEAS.forEach((idea, i) => {
         const card = `[data-idea='${i}']`;
-        const at = 1.6 + i * 2.1;
+        const at = IDEA_START + i * IDEA_GAP;
         const side = i % 2 === 0 ? 1 : -1;
         tl.fromTo(
           card,
@@ -97,9 +115,10 @@ export function Cierre() {
         );
       });
 
-      tl.to("[data-giant]", { opacity: 0.1, duration: 0.6 }, 8.0)
-        .to("[data-final] > *", { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.3 }, 8.2)
-        .to({}, { duration: 1.4 }, 9.1);
+      const lastAt = IDEA_START + (IDEAS.length - 1) * IDEA_GAP;
+      tl.to("[data-giant]", { opacity: 0.1, duration: 0.6 }, lastAt + 2.2)
+        .to("[data-final] > *", { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.3 }, lastAt + 2.4)
+        .to({}, { duration: 1.4 }, lastAt + 3.3);
     },
     { scope: sectionRef },
   );
@@ -109,7 +128,7 @@ export function Cierre() {
       id="cierre"
       ref={sectionRef}
       aria-label="Cierre: ambiente, sociedad y cultura"
-      className="relative z-20 h-[620vh] bg-black"
+      className="relative z-20 h-[1000vh] bg-black"
     >
       <div className="sticky top-0 flex h-dvh items-center justify-center overflow-hidden px-6">
         <p className="eyebrow absolute top-[14%] left-1/2 -translate-x-1/2 text-gold short:top-[16%]">
