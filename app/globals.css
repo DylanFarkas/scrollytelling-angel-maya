@@ -1,26 +1,261 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant short (@media (max-height: 720px));
+@custom-variant tiny (@media (max-height: 560px));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-instrument), Georgia, serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme {
+  --color-ink: #14110e;
+  --color-paper: #f4efe6;
+  --color-cream: #f7f3ea;
+  --color-gold: #c4a36a;
+  --color-gold-soft: #e2c690;
+
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  background: var(--color-ink);
+}
+
+@layer components {
+  /* Voz de títulos: la misma del menú. */
+  .type-menu {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.05em;
+    text-transform: uppercase;
+  }
+
+  .type-menu-num {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    letter-spacing: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .eyebrow {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  /* Texto sobre fotografía o video. */
+  .on-image {
+    text-shadow: 0 1px 18px rgb(12 9 6 / 0.45);
+  }
+
+  /* Frases grandes sobre video: el velo vive en el propio texto para
+     entrar y salir con la misma animación. */
+  /* Chrome repinta el texto en cada frame de la animación: sombras cortas
+     y capa propia para rasterizarlo una sola vez. */
+  .legible {
+    position: relative;
+    isolation: isolate;
+    will-change: transform, opacity;
+    text-shadow:
+      0 1px 2px rgb(12 9 6 / 0.6),
+      0 2px 8px rgb(12 9 6 / 0.45);
+  }
+
+  .legible::before {
+    content: "";
+    position: absolute;
+    inset: -45% -22%;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(
+      closest-side,
+      rgb(12 9 6 / 0.62),
+      rgb(12 9 6 / 0.4) 50%,
+      rgb(12 9 6 / 0.14) 78%,
+      transparent
+    );
+  }
+
+  /* Fondos negros con el tono del capítulo: el 9 cálido, el 10 más frío. */
+  .tint-cap9 {
+    background:
+      radial-gradient(ellipse 95% 65% at 50% 112%, rgb(124 74 32 / 0.26), transparent 72%),
+      radial-gradient(ellipse 70% 50% at 50% -10%, rgb(92 62 30 / 0.12), transparent 70%),
+      #000;
+  }
+
+  .tint-cap10 {
+    background:
+      radial-gradient(ellipse 95% 65% at 50% 112%, rgb(52 78 96 / 0.26), transparent 72%),
+      radial-gradient(ellipse 70% 50% at 50% -10%, rgb(44 60 72 / 0.14), transparent 70%),
+      #000;
   }
 }
 
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-sans);
+}
+
+/* Si el script nunca llega, el preloader no puede tapar la página. */
+.preloader {
+  animation: preloader-failsafe 0s linear 14s forwards;
+}
+
+@keyframes preloader-failsafe {
+  to {
+    visibility: hidden;
+  }
+}
+
+::selection {
+  background: rgba(244, 239, 230, 0.22);
+}
+
+/* ---------- Momento 2: atmósfera ---------- */
+.m2-fog {
+  position: absolute;
+  inset: -25% -35%;
+  background:
+    radial-gradient(38% 26% at 28% 68%, rgba(244, 228, 200, 0.2), transparent 70%),
+    radial-gradient(32% 22% at 74% 58%, rgba(244, 228, 200, 0.14), transparent 70%),
+    radial-gradient(45% 18% at 50% 88%, rgba(236, 216, 184, 0.16), transparent 72%);
+  filter: blur(24px);
+  animation: m2-drift 42s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.m2-fog--slow {
+  opacity: 0.7;
+  animation-duration: 64s;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes m2-drift {
+  from {
+    transform: translate3d(-5%, 1%, 0);
+  }
+  to {
+    transform: translate3d(5%, -2%, 0);
+  }
+}
+
+.m2-grain::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity: 0.09;
+  mix-blend-mode: overlay;
+  animation: m2-grain 1.2s steps(6) infinite;
+}
+
+@keyframes m2-grain {
+  0% { transform: translate3d(0, 0, 0); }
+  20% { transform: translate3d(-3%, 2%, 0); }
+  40% { transform: translate3d(2%, -3%, 0); }
+  60% { transform: translate3d(-2%, -1%, 0); }
+  80% { transform: translate3d(3%, 3%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+/* Pie de página: el recorrido corre dentro de la cápsula. */
+.footer-marquee {
+  animation: footer-marquee 70s linear infinite;
+}
+
+@keyframes footer-marquee {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .m2-fog,
+  .m2-grain::after,
+  .footer-marquee {
+    animation: none;
+  }
+}
+
+/* Momento 5: AMERICA entre nubes y niebla, al estilo del título PEAK. */
+.america-title {
+  position: absolute;
+  inset-inline: 0;
+  top: 21%;
+  z-index: 2;
+  margin: 0;
+  pointer-events: none;
+  user-select: none;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-weight: 750;
+  font-size: 20.8vw;
+  line-height: 0.76;
+  letter-spacing: -0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  /* --fill: 0 = solo contorno, 1 = relleno */
+  color: rgb(255 255 255 / var(--fill, 1));
+  -webkit-text-stroke: max(1px, 0.09vw) rgb(255 255 255 / calc(1 - var(--fill, 1)));
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgb(0 0 0 / 0.4) 12%,
+    #000 30%,
+    #000 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgb(0 0 0 / 1) 12%,
+    #000 30%,
+    #000 100%
+  );
+}
+
+.america-fore {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 28%,
+    #000 50%,
+    #000 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 28%,
+    #000 50%,
+    #000 100%
+  );
+}
+
+@media (max-width: 700px) {
+  .america-title {
+    top: 31%;
+    font-size: 17.2vw;
+  }
 }
