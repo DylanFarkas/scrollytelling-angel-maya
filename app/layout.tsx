@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Instrument_Serif } from "next/font/google";
+import { MomentNote } from "../components/moment-note";
 import { NextMoment } from "../components/next-moment";
 import { Preloader } from "../components/preloader";
 import { SiteNav } from "../components/site-nav";
@@ -33,12 +34,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="es"
       className={`${geist.variable} ${instrument.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-ink text-paper">
+      <body className="min-h-full bg-black text-paper">
         <SmoothScroll />
         <Preloader />
         <SiteNav />
         <StoryRail />
         {children}
+        <MomentNote />
         <NextMoment />
       </body>
     </html>

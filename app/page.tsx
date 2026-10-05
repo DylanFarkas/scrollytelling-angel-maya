@@ -8,6 +8,7 @@ import { Momento6 } from "./momento-6";
 import { Cierre } from "./cierre";
 import { Cruce } from "../components/cruce";
 import { HiddenMessage } from "../components/hidden-message";
+import { CreditsFooter } from "../components/credits-footer";
 import { SiteFooter } from "../components/site-footer";
 
 export default function Home() {
@@ -24,6 +25,7 @@ export default function Home() {
       <Cierre />
       <SiteFooter />
       <HiddenMessage />
+      <CreditsFooter />
     </main>
   );
 }
