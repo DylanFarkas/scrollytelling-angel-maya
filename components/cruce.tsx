@@ -13,21 +13,21 @@ const PARADAS = [
     num: "01",
     title: "Tierras de cereal",
     text: "El trigo escaseaba y España venía optando por la oveja. Buscando tierras, los portugueses llegaron a las Canarias.",
-    image: "/momento4/frames/frame_110.jpg",
+    image: "/momento4/cruce/tierras-cereal.webp",
   },
   {
     word: "Metales",
     num: "02",
     title: "Metales",
     text: "Los genoveses llegaron a Madeira buscando el oro del Sahara. Después vino la costa africana.",
-    image: "/momento4/frames/frame_160.jpg",
+    image: "/momento4/cruce/metales.webp",
   },
   {
     word: "América",
     num: "03",
     title: "América",
     text: "Del otro lado no había un territorio vacío: había sociedades que ya sabían vivir con la tierra.",
-    image: "/momento5/frames/frame_330.jpg",
+    image: "/momento4/cruce/america.webp",
   },
 ] as const;
 

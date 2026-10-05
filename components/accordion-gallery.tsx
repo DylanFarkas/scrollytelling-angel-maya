@@ -101,7 +101,6 @@ const AccordionGallery = ({
   const ghostRefs = useRef<(HTMLElement | null)[]>([]);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
   const firstRunRef = useRef(true);
-  const mediaSizeRef = useRef(320);
 
   const vertical = orientation === "vertical";
   const count = items.length;
@@ -134,8 +133,25 @@ const AccordionGallery = ({
       if (!panels.length) return;
 
       const r = Math.min(Math.max(expandRatio, 0.2), 0.9);
-      const grow = count > 1 ? (r * (count - 1)) / (1 - r) : 1;
-      const mediaSize = mediaSizeRef.current;
+      const root = rootRef.current;
+      const cross = vertical ? (root?.clientWidth ?? 0) : (root?.clientHeight ?? 0);
+      const main = vertical ? (root?.clientHeight ?? 0) : (root?.clientWidth ?? 0);
+      const usable = Math.max(main - gap * Math.max(count - 1, 0), 0);
+      const activeImg = mediaRefs.current[active]?.querySelector("img");
+      const aspect =
+        activeImg && activeImg.naturalWidth > 0
+          ? activeImg.naturalWidth / activeImg.naturalHeight
+          : 0;
+
+      // El panel abierto toma la proporción de la foto. Si no, object-cover
+      // la recorta y parece un zoom sobre el centro.
+      let grow = count > 1 ? (r * (count - 1)) / (1 - r) : 1;
+      if (aspect > 0 && cross > 0 && usable > 0 && count > 1) {
+        const fitted = vertical ? cross / aspect : cross * aspect;
+        const activeMain = Math.min(usable * 0.72, Math.max(usable * 0.22, fitted));
+        const inactive = (usable - activeMain) / (count - 1);
+        if (inactive > 1) grow = activeMain / inactive;
+      }
 
       tlRef.current?.kill();
       const dur = animate && !prefersReduced ? duration : 0;
@@ -160,8 +176,10 @@ const AccordionGallery = ({
 
         if (media) {
           const drift = Math.max(-1.5, Math.min(1.5, active - i));
-          const shift = drift * parallax * mediaSize * 0.06;
+          const shift = drift * parallax * 12;
           const gray = grayscale ? (isActive ? 0 : 1) : 0;
+          const picture = media.querySelector("img");
+          if (picture) picture.style.objectFit = isActive ? "contain" : "cover";
           tl.to(
             media,
             {
@@ -169,6 +187,7 @@ const AccordionGallery = ({
               yPercent: -50,
               x: vertical ? 0 : isActive ? 0 : shift,
               y: vertical ? (isActive ? 0 : shift) : 0,
+              scale: isActive ? 1 : 1.14,
               "--ag-gray": gray,
               "--ag-dim": isActive ? 0 : 0.35,
               duration: dur,
@@ -218,6 +237,7 @@ const AccordionGallery = ({
       duration,
       ease,
       vertical,
+      gap,
       tilt,
       parallax,
       grayscale,
@@ -232,23 +252,22 @@ const AccordionGallery = ({
     if (!el) return;
 
     const measure = () => {
-      const rect = el.getBoundingClientRect();
-      const total = vertical ? rect.height : rect.width;
-      const usable = Math.max(total - gap * (count - 1), 120);
-      const size = Math.max(
-        140,
-        usable * Math.min(Math.max(expandRatio, 0.2), 0.9) * 1.22,
-      );
-      mediaSizeRef.current = size;
-      el.style.setProperty("--ag-media-size", `${size}px`);
       applyLayout(!firstRunRef.current);
     };
 
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(el);
-    return () => ro.disconnect();
-  }, [applyLayout, gap, count, expandRatio, vertical]);
+    const onLoad = () => measure();
+    const imgs = [...el.querySelectorAll("img")];
+    imgs.forEach((img) => {
+      if (!img.complete) img.addEventListener("load", onLoad);
+    });
+    return () => {
+      ro.disconnect();
+      imgs.forEach((img) => img.removeEventListener("load", onLoad));
+    };
+  }, [applyLayout]);
 
   useEffect(() => {
     applyLayout(!firstRunRef.current);
@@ -335,12 +354,8 @@ const AccordionGallery = ({
                 ref={(el: HTMLElement | null) => {
                   mediaRefs.current[i] = el;
                 }}
-                className="absolute top-1/2 left-1/2 filter-[grayscale(var(--ag-gray,1))]"
-                style={{
-                  width: vertical ? "100%" : "var(--ag-media-size, 320px)",
-                  height: vertical ? "var(--ag-media-size, 320px)" : "100%",
-                  willChange: "transform, filter",
-                }}
+                className="absolute top-1/2 left-1/2 h-full w-full filter-[grayscale(var(--ag-gray,1))]"
+                style={{ willChange: "transform, filter" }}
               >
                 <img
                   src={item.image}

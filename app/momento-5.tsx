@@ -23,14 +23,6 @@ function framePosition(progress: number) {
   return OPEN_FRAMES - 1 + u * (FRAME_COUNT - OPEN_FRAMES);
 }
 
-// Posiciones sobre el último plano (1024×576), en % de la imagen.
-const CHIPS = [
-  { id: "maiz", label: "Maíz", x: 14, y: 67 },
-  { id: "terrazas", label: "Terrazas", x: 41, y: 76 },
-  { id: "rio", label: "Río", x: 57, y: 60 },
-  { id: "comunidades", label: "Comunidades", x: 88, y: 59 },
-] as const;
-
 function frameSrc(index: number) {
   return `/momento5/frames/frame_${String(index + 1).padStart(3, "0")}.jpg`;
 }
@@ -62,8 +54,6 @@ export function Momento5() {
 
       const beats = gsap.utils.toArray<HTMLElement>("[data-beat]", section);
       gsap.set(beats, { autoAlpha: 0, y: 28 });
-      gsap.set("[data-chip]", { autoAlpha: 0 });
-      gsap.set("[data-chip-line]", { scaleY: 0 });
 
       if (reduced) {
         gsap.set("[data-scene]", { autoAlpha: 1 });
@@ -118,14 +108,6 @@ export function Momento5() {
           0,
         )
         .to("[data-title='america']", { autoAlpha: 0, duration: 0.85 }, 2.35)
-        // el valle se despeja: se nombran sus partes, sin ilustrarlas
-        .to("[data-chip]", { autoAlpha: 1, duration: 0.3, stagger: 0.18 }, 7.0)
-        .to(
-          "[data-chip-line]",
-          { scaleY: 1, duration: 0.35, stagger: 0.18, ease: "power2.out" },
-          7.0,
-        )
-        .to("[data-chip]", { autoAlpha: 0, duration: 0.35 }, 8.25)
         .fromTo(
           "[data-beat='antes']",
           { autoAlpha: 0, y: 16 },
@@ -159,29 +141,6 @@ export function Momento5() {
             America
           </p>
           <canvas ref={foreRef} aria-hidden className="america-fore" />
-        </div>
-
-        <div
-          aria-hidden
-          className="pointer-events-none absolute top-1/2 left-1/2 z-10 h-[max(100dvh,56.25vw)] w-[max(100vw,177.78dvh)] -translate-x-1/2 -translate-y-1/2"
-        >
-          {CHIPS.map((chip) => (
-            <div
-              key={chip.id}
-              data-chip
-              className="absolute flex -translate-x-1/2 -translate-y-full flex-col items-center"
-              style={{ left: `${chip.x}%`, top: `${chip.y}%` }}
-            >
-              <span className="rounded-full border border-paper/30 bg-[rgba(14,10,6,0.5)] px-3 py-1.5 text-[0.62rem] font-medium tracking-[0.16em] text-cream uppercase backdrop-blur-sm">
-                {chip.label}
-              </span>
-              <span
-                data-chip-line
-                className="block h-[min(9vh,4.5rem)] w-px origin-bottom bg-paper/70"
-              />
-              <span className="block size-1.5 rounded-full bg-gold-soft" />
-            </div>
-          ))}
         </div>
 
         <ChapterMark>Capítulo 10</ChapterMark>

@@ -118,7 +118,7 @@ export function Momento6() {
     <section
       id="dos-flores"
       ref={sectionRef}
-      aria-label="Dos flores, un solo plano"
+      aria-label="Dos flores: el trigo y el maíz"
       className="relative z-20 h-[760vh] bg-ink"
     >
       <div data-panel className="sticky top-0 h-dvh overflow-hidden">
@@ -167,7 +167,7 @@ export function Momento6() {
                 Dos flores
               </h2>
               <p className="mt-3 font-display text-[clamp(1.2rem,2.2vw,1.7rem)] text-cream/90 italic">
-                Un solo plano. Dos tierras a la vez.
+                El trigo reverdece con lo que el maíz pierde.
               </p>
             </div>
 

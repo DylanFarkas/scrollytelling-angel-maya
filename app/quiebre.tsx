@@ -193,7 +193,7 @@ export function Quiebre() {
             </div>
           </header>
 
-          <div data-shard-wrap>
+          <div data-shard-wrap className="flex min-h-48 w-full min-w-0 flex-1">
             <AccordionGallery
               items={QUIEBRE_ITEMS}
               activeIndex={active}
@@ -201,14 +201,15 @@ export function Quiebre() {
               accentColor="#c4a36a"
               overlayColor="#14110e"
               textColor="#f7f3ea"
-              height="clamp(9rem, 44vh, 35rem)"
+              height="100%"
               gap={10}
               radius={4}
-              expandRatio={0.52}
+              expandRatio={0.46}
               trigger="click"
               grayscale
               ghostLabels
               showLabels
+              className="h-full"
             />
           </div>
 

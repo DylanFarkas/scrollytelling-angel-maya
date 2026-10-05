@@ -17,7 +17,7 @@ export const SECTIONS: StorySection[] = [
   { hash: "#el-cruce", num: "—", label: "El cruce", ariaLabel: "Ir a El cruce hacia América" },
   { hash: "#america", num: "05", label: "América", ariaLabel: "Ir a América ya tenía una historia" },
   { hash: "#el-quiebre", num: "—", label: "El quiebre", ariaLabel: "Ir a El quiebre" },
-  { hash: "#dos-flores", num: "06", label: "Dos flores", ariaLabel: "Ir a Dos flores, un solo plano" },
+  { hash: "#dos-flores", num: "06", label: "Dos flores", ariaLabel: "Ir a Dos flores: el trigo y el maíz" },
   { hash: "#cierre", num: "—", label: "Cierre", ariaLabel: "Ir al cierre: ambiente, sociedad y cultura" },
 ];
 
