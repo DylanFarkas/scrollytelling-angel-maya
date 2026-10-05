@@ -301,37 +301,59 @@ Played backward, the ship leaves, the mine and the wheat recede, and the terrace
 
 **Video** `m6-flores.mp4`
 
-Aquí no se usa el acercamiento del ejemplo. Las dos tierras tienen que verse juntas todo el tiempo: si la cámara entra en la flor, desaparece la relación. Una corriente fina sale de América hacia Europa, la flor americana se marchita y el campo europeo reverdece. No es una raíz que lleve vida a América. Al revés, América vuelve a florecer.
+Aquí no se usa el acercamiento del ejemplo. Las dos tierras tienen que verse juntas todo el tiempo: si la cámara entra en la flor, desaparece la relación. Si el generador las funde en un solo valle andino, Europa desaparece y la corriente parece un río de ese valle.
+
+Una corriente fina sale de América hacia Europa. En el avance, la flor americana se marchita y el campo europeo reverdece, modesto: el alivio es de una Europa que todavía no se reponía. No es una raíz que lleve vida a América. Al recorrer el plano hacia atrás, la corriente regresa, América florece de nuevo y Europa vuelve al cansancio.
+
+El encuadre es una sola fotografía. A la izquierda, llanura europea. A la derecha, terrazas. Entre las dos, una franja estrecha de mar y niebla: el Atlántico como costura, no como sujeto. Esa costura impide que los andenes y las casas de paja crucen al campo europeo. En el final, las dos flores ocupan el primer plano y se leen grandes, sin acercar la cámara: a la izquierda una espiga de trigo que nace, a la derecha una planta de maíz que se marchita. El tercio bajo queda oscuro y vacío para la pregunta.
 
 **Inicio**
 
 ```text
-[Estilo] + [Época Europa] + [Época América]
+[Estilo] + [Época Europa] on the left only, [Época América] on the right only.
 
-Wide cinematic frame, camera locked, charcoal mist, 16:9. Left third: a tired 15th-century European field and one small seedling, short roots, few leaves. Right two thirds: Andean terraces and maize still in flower, dignified, already inhabited. Both lands stay in frame for the whole shot. Do not fly into the maize. A dark calm band along the lower third. No current yet. No ship, no text.
+Wide cinematic photograph, camera locked, gentle high angle, far enough to read two lands at once. 16:9. One continuous frame. The European plain occupies the left third. The Andean terraces occupy the right half. Between them, only a narrow seam of charcoal mist and a thin reach of calm Atlantic water, much thinner than either land. The seam is weather, soft. The sea is not the subject.
+
+Left third: a tired European plain, about 1450. Pale cracked fallow, hand-sown furrows, flat land, low horizon. One small seedling, short, few leaves, standing in that field at mid-distance, small in the frame. A tiny timber-and-stone village far off. No Andes, no stone terraces, no round thatched houses, no maize on this side.
+
+Right half: Andean terraces and maize still in flower, tassels visible, dignified, already inhabited, communities small in the land. Mountains and round thatched houses exist only here.
+
+If the two sides become one valley, the take is wrong. If terraces or thatched houses continue onto the left plain, the take is wrong. If the seedling is a close-up of soil and rocks filling the corner, the take is wrong.
+
+No gold thread yet. Lower third: a dark, calm, empty charcoal band, soft and out of focus, with no rocks, no soil detail, and no plants. That band is for type added later. No ship, no text.
 ```
 
 **Fin**
 
 ```text
-[Estilo] + [Época Europa] + [Época América]
-Same two lands, same locked frame. The start image is a reference for the layout, not for a healthy America. The camera never moved.
+[Estilo] + [Época Europa] on the left only, [Época América] on the right only.
+Same two lands, same locked camera, same horizon, same coast and same seam of mist and water as the start image. The start image is a reference for the place and the framing, not for a flowering America and not for a healthy maize field. The camera never moved and never came closer. Both lands stay in frame.
 
-A thin muted-gold current has left the American soil and reached the European field. It reads from right to left, from America toward Europe. The maize and terraces on the right are wilted, pale, quiet. The European field on the left is green again. The current drains; it does not take root in America and it does not spread life across the ocean. The dark calm band remains along the lower third. No ship, no text.
+Two flowers are now large in the foreground, big enough to read the head of each plant at a glance. They grew in place. The plain remains behind the left flower and the terraces remain behind the right one.
+
+Left foreground: one European wheat plant, large, a young green ear with awns, rising from furrows that have turned a modest green, soil still visible. It is grain, not maize: no broad corn leaves, no tassel, no cob. The plant is matte. No glow on the ear, no glow on the stem. Behind it the field is relieved and still not abundant. Not a wall of wheat.
+
+Right foreground: one maize plant, just as large, clearly wilted. Leaves droop and have gone grey-olive, the tassel has collapsed, the cob is dry and pale, and the soil at its base is tired and pale. The terraces behind it have paled with it. This flower was drained. If the right-hand maize still looks ripe, golden, and full, the take is wrong.
+
+A thin muted-gold thread leaves the soil at the roots of that wilted maize, crosses the water from right to left, and sinks into the soil beside the wheat. It is thinner than a stem and dimmer than the dawn. Its brightest point is at the American roots, and it fades as it arrives. It does not touch the wheat ear and it does not light the European plant. If the brightest point is the wheat, or if the thread flows left to right, the take is wrong. It does not take root on the American side.
+
+The lower third stays a dark, soft, out-of-focus band of ground, empty for type, not a fade to black. The two flowers stand above that band. No ship, no text.
 ```
 
 **Video**
 
 ```text
-[Estilo] + [Época Europa] on the left, [Época América] on the right.
+[Estilo] + [Época Europa] on the left only, [Época América] on the right only.
 
-16:9, 8–10 seconds, locked camera, no approach, no fly-through, no cuts, no fade to white or black. Do not use the mountain-to-sea move. Both lands stay readable the whole time. Not roots spreading life into America. Not a ship. Not a map.
+16:9, 8–10 seconds, locked camera, no approach, no fly-through, no cuts, no fade to white or black. Do not use the mountain-to-sea move. Both lands stay readable the whole time, in one continuous photograph. The European plain stays the left third. The Andean terraces stay the right half. A narrow seam of charcoal mist and thin Atlantic water stays between them. Terraces and round thatched houses never cross onto the plain. If the shot becomes one Andean valley, the take is wrong.
 
-Start: left third, a tired 15th-century European field and one small seedling. Right two thirds, Andean terraces and maize still in flower, dignified, already inhabited. Charcoal mist. A dark calm band along the lower third.
+Start: the European field is tired, pale, cracked, with one small seedling at mid-distance, not a foreground close-up. The maize on the right is still in flower. No thread yet. The lower third is a dark, calm, empty band.
 
-Then a thin muted-gold current leaves the American soil and travels right to left, toward Europe. The maize wilts, pale and quiet, while the European field turns green again. The current drains. It does not take root on the American side. Dark band still along the lower third. Calm, serious.
+Then a thin muted-gold thread leaves the soil under the American maize and travels right to left, across the seam, into the soil beside the European plant. It stays thin and dim, quieter than the dawn. Its brightest point is at the American roots, and it fades as it arrives. As it drains, the foreground maize wilts until it is unmistakable: drooping grey leaves, a collapsed tassel, a dry pale cob, pale soil. In the same place, the European seedling becomes one large wheat ear, young and green, with awns, matte, unlit. The furrows around it turn a modest green, soil still visible. Not maize, and not a triumphant harvest. If the thread flows left to right, if it blooms on the wheat, or if the maize still looks ripe, the take is wrong. It does not take root on the American side.
 
-Played backward, the current returns, America flowers again, and Europe goes back to fatigue, without the camera moving. No text, no ships.
+The dark band stays empty along the lower third. Calm, serious.
+
+Played backward, the thread retreats from the European field back into the American soil, America flowers again, and Europe returns to pale fatigue, without the camera moving. No text, no ships.
 ```
 
 ---
@@ -346,6 +368,6 @@ Played backward, the current returns, America flowers again, and Europe goes bac
 | `m4-ruta.mp4` | Video, salida al mar | Arranca en esa niebla y sale en el Atlántico |
 | `m5-america.mp4` | Video, con acercamiento | Entra en la niebla de la costa y sale en América habitada |
 | `m5-quiebre.mp4` | Video, cámara fija | El mismo valle es interrumpido |
-| `m6-flores.mp4` | Video, cámara fija | Las dos tierras se ven juntas; una flor se marchita |
+| `m6-flores.mp4` | Video, cámara fija | Llanura y terrazas juntas, con una costura de niebla; la corriente drena hacia Europa |
 
 En la herramienta: 16:9, 1920×1080, 8–10 segundos. Si hay un corte, un fundido a blanco o texto dentro del video, esa toma no sirve. El acercamiento solo se exige en los tres clips marcados.

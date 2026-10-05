@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { ChapterMark } from "../components/chapter-mark";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -44,6 +45,14 @@ const CHAIN = [
 ] as const;
 
 const STRIPS = ["Trigo", "Rastrojo", "Descanso"] as const;
+
+const SWEEP_COLORS = [
+  "#d6b26c",
+  "#bf7442",
+  "#8d8274",
+  "#bf7442",
+  "#d6b26c",
+] as const;
 
 const GAUGE_SEGMENTS = 14;
 const GAUGE_STATES = ["Fértil", "Exigido", "Agotado"] as const;
@@ -96,7 +105,7 @@ function Words({ text }: { text: string }) {
     <>
       {words.map((word, index) => (
         <span key={index}>
-          <span className="-mb-[0.14em] inline-block overflow-hidden pb-[0.14em] align-bottom">
+          <span className="mb-[-0.14em] inline-block overflow-hidden pb-[0.14em] align-bottom">
             <span data-word className="inline-block will-change-transform">
               {word}
             </span>
@@ -145,7 +154,8 @@ export function Momento2() {
           const rank = GAUGE_SEGMENTS - 1 - i;
           const lit = gsap.utils.clamp(0, 1, level - rank);
           seg.style.opacity = String(0.28 + lit * 0.72);
-          seg.style.backgroundColor = lit > 0.02 ? color : "rgba(244,239,230,0.32)";
+          seg.style.backgroundColor =
+            lit > 0.02 ? color : "rgba(244,239,230,0.32)";
         });
       };
       renderGauge();
@@ -162,7 +172,10 @@ export function Momento2() {
         { autoAlpha: 0 },
       );
       // Con movimiento reducido las palabras se funden en vez de subir.
-      gsap.set("[data-word]", { yPercent: 110 * move, autoAlpha: reduced ? 0 : 1 });
+      gsap.set("[data-word]", {
+        yPercent: 110 * move,
+        autoAlpha: reduced ? 0 : 1,
+      });
       gsap.set("[data-intro] [data-word]", { yPercent: 0, autoAlpha: 1 });
       gsap.set("[data-ui]", { autoAlpha: 0 });
       gsap.set("[data-rail-fill]", { scaleX: 0 });
@@ -173,6 +186,11 @@ export function Momento2() {
       gsap.set("[data-sello-path]", { strokeDashoffset: 1 });
       gsap.set("[data-sello-label]", { autoAlpha: 0, y: 6 * move });
       gsap.set("[data-sello-ring]", { autoAlpha: 0, scale: 1 - 0.12 * move });
+      gsap.set("[data-band]", {
+        xPercent: (_: number, el: HTMLElement) =>
+          (el.dataset.from === "right" ? 105 : -105) * move,
+        autoAlpha: reduced ? 0 : 1,
+      });
 
       /* ---------- entrada desde el momento 1 ---------- */
       gsap.fromTo(
@@ -211,7 +229,13 @@ export function Momento2() {
           )
           .to(
             `[data-card='${id}'] [data-word]`,
-            { yPercent: 0, autoAlpha: 1, duration: 0.5, stagger: 0.06, ease: "power3.out" },
+            {
+              yPercent: 0,
+              autoAlpha: 1,
+              duration: 0.5,
+              stagger: 0.06,
+              ease: "power3.out",
+            },
             at + 0.1,
           )
           .fromTo(
@@ -276,11 +300,7 @@ export function Momento2() {
       nodeOn(1, 3.05);
 
       // fertilidad: se vacía de forma continua
-      tl.to(
-        gauge,
-        { vital: 0.62, duration: 2.1, onUpdate: renderGauge },
-        1.5,
-      )
+      tl.to(gauge, { vital: 0.62, duration: 2.1, onUpdate: renderGauge }, 1.5)
         .to(gauge, { vital: 0.3, duration: 2.7, onUpdate: renderGauge }, 3.6)
         .to(gauge, { vital: 0.07, duration: 1.4, onUpdate: renderGauge }, 6.3);
 
@@ -293,15 +313,31 @@ export function Momento2() {
       cardIn("presion", 3.85);
       nodeOn(2, 4.35);
 
-      tl.to("[data-strip='0'] [data-strip-fill]", { scaleX: 1, duration: 0.45, ease: "power2.out" }, 4.55)
-        .to("[data-strip='1'] [data-strip-fill]", { scaleX: 1, duration: 0.45, ease: "power2.out" }, 4.8)
-        .to("[data-strip='2'] [data-strip-fill]", { scaleX: 1, duration: 0.45, ease: "power2.out" }, 5.05)
+      tl.to(
+        "[data-strip='0'] [data-strip-fill]",
+        { scaleX: 1, duration: 0.45, ease: "power2.out" },
+        4.55,
+      )
+        .to(
+          "[data-strip='1'] [data-strip-fill]",
+          { scaleX: 1, duration: 0.45, ease: "power2.out" },
+          4.8,
+        )
+        .to(
+          "[data-strip='2'] [data-strip-fill]",
+          { scaleX: 1, duration: 0.45, ease: "power2.out" },
+          5.05,
+        )
         .to(
           "[data-strip='2'] [data-strip-fill]",
           { backgroundColor: "rgba(214,201,178,0.55)", duration: 0.5 },
           5.55,
         )
-        .to("[data-strip='2'] [data-strip-label]", { opacity: 0.45, duration: 0.5 }, 5.55)
+        .to(
+          "[data-strip='2'] [data-strip-label]",
+          { opacity: 0.45, duration: 0.5 },
+          5.55,
+        )
         .to("[data-strip='2'] [data-strike]", { scaleX: 1, duration: 0.4 }, 5.6)
         .to("[data-strip-note]", { autoAlpha: 1, duration: 0.4 }, 5.75);
 
@@ -325,7 +361,13 @@ export function Momento2() {
         )
         .to(
           "[data-climax] [data-word]",
-          { yPercent: 0, autoAlpha: 1, duration: 0.6, stagger: 0.07, ease: "power3.out" },
+          {
+            yPercent: 0,
+            autoAlpha: 1,
+            duration: 0.6,
+            stagger: 0.07,
+            ease: "power3.out",
+          },
           7.45,
         )
         .fromTo(
@@ -342,33 +384,74 @@ export function Momento2() {
         )
         .to(
           "[data-sello-ring]",
-          { autoAlpha: 1, scale: 1, duration: 0.4, stagger: 0.15, ease: "power2.out" },
+          {
+            autoAlpha: 1,
+            scale: 1,
+            duration: 0.4,
+            stagger: 0.15,
+            ease: "power2.out",
+          },
           8.7,
         )
         .to(
           "[data-sello-path]",
-          { strokeDashoffset: 0, duration: 0.7, stagger: 0.04, ease: "power1.inOut" },
+          {
+            strokeDashoffset: 0,
+            duration: 0.7,
+            stagger: 0.04,
+            ease: "power1.inOut",
+          },
           8.85,
         )
         .to(
           "[data-sello-label]",
           { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.18 },
           9.2,
+        );
+
+      // salida: franjas con la paleta del medidor cubren la pantalla hasta la tinta.
+      // Dura más que el resto a propósito: el barrido va atado al scroll y,
+      // si es corto, un gesto lo completa entero.
+      tl.to(
+        "[data-band='color']",
+        {
+          xPercent: 0,
+          autoAlpha: 1,
+          duration: 2.2,
+          stagger: 0.18,
+          ease: "power3.inOut",
+        },
+        11,
+      )
+        .to(
+          "[data-band='ink']",
+          {
+            xPercent: 0,
+            autoAlpha: 1,
+            duration: 2.2,
+            stagger: 0.18,
+            ease: "power3.inOut",
+          },
+          12.3,
         )
-        .to({}, { duration: 1 }, 10.2);
+        .to({}, { duration: 0.5 }, 15.2);
     },
     { scope: sectionRef },
   );
 
   return (
     <section
+      id="la-tierra"
       ref={sectionRef}
       aria-label="La tierra comienza a agotarse"
-      className="relative h-[760vh] bg-ink"
+      className="relative h-[920vh] bg-black"
     >
       <div className="sticky top-0 h-dvh overflow-hidden">
         {/* ---------- fotografía ---------- */}
-        <div data-plates className="absolute inset-0 origin-[50%_60%] will-change-transform">
+        <div
+          data-plates
+          className="absolute inset-0 origin-[50%_60%] will-change-transform"
+        >
           {SCENES.map((scene) => (
             <img
               key={scene.id}
@@ -395,7 +478,10 @@ export function Momento2() {
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_75%_at_12%_92%,rgba(14,10,6,0.86),rgba(14,10,6,0.45)_45%,transparent_75%)]"
         />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-linear-to-t from-[rgba(12,9,6,0.7)] to-transparent" />
-        <div data-shade className="pointer-events-none absolute inset-0 bg-ink" />
+        <div
+          data-shade
+          className="pointer-events-none absolute inset-0 bg-ink"
+        />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_48%,rgba(12,9,6,0.55)_100%)]" />
         <div className="m2-grain pointer-events-none absolute inset-0" />
         <div
@@ -403,15 +489,7 @@ export function Momento2() {
           className="pointer-events-none absolute inset-x-0 top-0 h-[45vh] bg-linear-to-b from-ink to-transparent"
         />
 
-        {/* ---------- cabecera ---------- */}
-        <header className="absolute inset-x-0 top-0 z-30 flex items-center justify-between px-6 py-5 sm:px-10 lg:px-14">
-          <p className="font-sans text-[0.68rem] tracking-[0.22em] text-paper/80 uppercase">
-            Ángel Maya
-          </p>
-          <p className="font-sans text-[0.68rem] tracking-[0.22em] text-paper/80 uppercase">
-            Capítulo 9
-          </p>
-        </header>
+        <ChapterMark className="z-30">Capítulo 9</ChapterMark>
 
         {/* ---------- apertura ---------- */}
         <div
@@ -419,13 +497,13 @@ export function Momento2() {
           className="absolute inset-0 z-20 flex flex-col items-center justify-center px-6 text-center"
         >
           <div className="flex items-center gap-4">
-            <span className="h-px w-10 bg-[#c4a36a]/70" />
-            <p className="font-sans text-[0.68rem] tracking-[0.32em] text-[#c4a36a] uppercase">
-              Segundo momento
+            <span className="h-px w-10 bg-gold/70" />
+            <p className="eyebrow on-image text-gold-soft">
+              <span className="type-menu-num">°02</span> · Segundo momento
             </p>
-            <span className="h-px w-10 bg-[#c4a36a]/70" />
+            <span className="h-px w-10 bg-gold/70" />
           </div>
-          <h2 className="mt-7 max-w-5xl font-display text-[clamp(3rem,8vw,7.4rem)] leading-[0.9] font-medium tracking-[-0.02em] text-balance text-[#f7f3ea]">
+          <h2 className="type-menu mt-7 max-w-5xl text-[clamp(2.8rem,8vw,7.2rem)] text-balance text-cream">
             <Words text="La tierra comienza a agotarse" />
           </h2>
         </div>
@@ -436,19 +514,19 @@ export function Momento2() {
           aria-hidden
           className="absolute top-16 right-6 z-20 flex flex-col items-end gap-2 sm:right-10 lg:top-1/2 lg:right-14 lg:-translate-y-1/2 lg:items-center lg:gap-4"
         >
-          <p className="font-sans text-[0.58rem] tracking-[0.26em] text-paper/70 uppercase lg:[writing-mode:vertical-rl] lg:rotate-180">
+          <p className="eyebrow text-[0.62rem] text-paper/70 lg:[writing-mode:vertical-rl] lg:rotate-180">
             Fertilidad del suelo
           </p>
-          <div className="flex flex-row-reverse gap-[3px] lg:flex-col lg:gap-[5px]">
+          <div className="flex flex-row-reverse gap-0.75 lg:flex-col lg:gap-1.25">
             {Array.from({ length: GAUGE_SEGMENTS }, (_, i) => (
               <span
                 key={i}
                 data-seg
-                className="block h-3 w-[6px] rounded-[1px] lg:h-1 lg:w-9"
+                className="block h-3 w-1.5 rounded-[1px] lg:h-1 lg:w-9"
               />
             ))}
           </div>
-          <div className="grid font-display text-base text-[#f7f3ea] italic lg:text-lg">
+          <div className="grid font-display text-lg text-cream italic lg:text-xl">
             {GAUGE_STATES.map((state, i) => (
               <span
                 key={state}
@@ -466,22 +544,20 @@ export function Momento2() {
           <article
             key={scene.id}
             data-card={scene.id}
-            className="absolute bottom-[7.5rem] left-6 z-20 max-w-[34rem] pr-6 sm:left-10 sm:bottom-[8.5rem] lg:left-14"
+            className="absolute bottom-30 left-6 z-20 max-w-136 pr-6 sm:left-10 sm:bottom-34 lg:left-14 short:sm:bottom-28 tiny:bottom-24 tiny:sm:bottom-24"
           >
             <div data-meta className="flex items-center gap-4">
-              <span className="font-display text-[2.6rem] leading-none text-[#c4a36a] italic">
-                {scene.num}
+              <span className="type-menu-num text-[2.4rem] leading-none text-gold">
+                °{scene.num}
               </span>
-              <span className="h-px w-12 bg-[#c4a36a]/60" />
-              <p className="font-sans text-[0.68rem] tracking-[0.24em] text-[#e2c690] uppercase">
-                {scene.kicker}
-              </p>
+              <span className="h-px w-12 bg-gold/60" />
+              <p className="eyebrow text-gold-soft">{scene.kicker}</p>
             </div>
-            <h3 className="mt-4 font-display text-[clamp(2.4rem,5vw,4.4rem)] leading-[0.95] font-medium tracking-[-0.01em] text-balance text-[#f7f3ea]">
+            <h3 className="type-menu mt-4 text-[clamp(1.9rem,min(4vw,6.4vh),3.6rem)] text-balance text-cream">
               <Words text={scene.title} />
             </h3>
             <div data-body>
-              <p className="mt-5 font-display text-lg leading-relaxed text-paper/88 italic sm:text-xl">
+              <p className="mt-4 max-w-[44ch] text-[clamp(0.95rem,min(1.15vw,2.1vh),1.1rem)] leading-[1.55] text-paper/82 short:mt-3 short:leading-[1.45] tiny:hidden">
                 {scene.body}
               </p>
 
@@ -490,25 +566,29 @@ export function Momento2() {
                   <div className="grid grid-cols-3 gap-3">
                     {STRIPS.map((strip, i) => (
                       <div key={strip} data-strip={i}>
-                        <div className="h-[6px] overflow-hidden rounded-full bg-paper/12">
+                        <div className="h-1.5 overflow-hidden rounded-full bg-paper/12">
                           <div
                             data-strip-fill
                             className="h-full origin-left rounded-full"
                             style={{
                               backgroundColor:
-                                i === 0 ? "#d6b26c" : i === 1 ? "#b88a52" : "#7f8a52",
+                                i === 0
+                                  ? "#d6b26c"
+                                  : i === 1
+                                    ? "#b88a52"
+                                    : "#7f8a52",
                             }}
                           />
                         </div>
                         <p
                           data-strip-label
-                          className="relative mt-2 inline-block font-sans text-[0.62rem] tracking-[0.2em] text-paper/80 uppercase"
+                          className="eyebrow relative mt-2 inline-block text-[0.62rem] text-paper/80"
                         >
                           {strip}
                           {i === 2 ? (
                             <span
                               data-strike
-                              className="absolute top-1/2 left-0 h-px w-full origin-left scale-x-0 bg-[#e2c690]"
+                              className="absolute top-1/2 left-0 h-px w-full origin-left scale-x-0 bg-gold-soft"
                             />
                           ) : null}
                         </p>
@@ -517,7 +597,7 @@ export function Momento2() {
                   </div>
                   <p
                     data-strip-note
-                    className="mt-3 font-display text-base text-[#e2c690] italic"
+                    className="mt-3 font-display text-lg text-gold-soft italic"
                   >
                     La franja que debía descansar ya no se recupera.
                   </p>
@@ -533,20 +613,18 @@ export function Momento2() {
           className="absolute inset-0 z-20 flex flex-col items-center justify-center px-6 text-center"
         >
           <div data-meta className="flex items-center gap-4">
-            <span className="font-display text-2xl leading-none text-[#c4a36a] italic">
-              {SCENES[2].num}
+            <span className="type-menu-num text-2xl leading-none text-gold">
+              °{SCENES[2].num}
             </span>
-            <span className="h-px w-10 bg-[#c4a36a]/60" />
-            <p className="font-sans text-[0.68rem] tracking-[0.28em] text-[#e2c690] uppercase">
-              {SCENES[2].kicker}
-            </p>
+            <span className="h-px w-10 bg-gold/60" />
+            <p className="eyebrow text-gold-soft">{SCENES[2].kicker}</p>
           </div>
-          <h2 className="mt-6 max-w-5xl font-display text-[clamp(2.9rem,7.4vw,6.8rem)] leading-[0.92] font-medium tracking-[-0.02em] text-balance text-[#f7f3ea]">
+          <h2 className="type-menu mt-6 max-w-5xl text-[clamp(2.6rem,7vw,6.4rem)] text-balance text-cream">
             <Words text={SCENES[2].title} />
           </h2>
           <p
             data-body
-            className="mt-7 max-w-xl font-display text-lg leading-relaxed text-paper/88 italic sm:text-xl"
+            className="mt-7 max-w-[52ch] text-[clamp(1.02rem,1.25vw,1.15rem)] leading-[1.6] text-paper/82"
           >
             {SCENES[2].body}
           </p>
@@ -554,17 +632,23 @@ export function Momento2() {
           <div className="mt-10 sm:mt-12">
             <p
               data-sellos-title
-              className="font-sans text-[0.62rem] tracking-[0.28em] text-paper/65 uppercase"
+              className="eyebrow text-[0.62rem] text-paper/65"
             >
               La presión también llegó a
             </p>
             <ul className="mt-5 flex items-start justify-center gap-8 sm:gap-14">
               {SELLOS.map((sello) => (
-                <li key={sello.id} className="flex w-24 flex-col items-center sm:w-28">
-                  <span data-sello-ring className="grid size-16 place-items-center rounded-full border border-[#c4a36a]/35 bg-[rgba(14,10,6,0.35)] backdrop-blur-[2px] sm:size-[4.5rem]">
+                <li
+                  key={sello.id}
+                  className="flex w-24 flex-col items-center sm:w-28"
+                >
+                  <span
+                    data-sello-ring
+                    className="grid size-16 place-items-center rounded-full border border-gold/35 bg-[rgba(14,10,6,0.35)] backdrop-blur-[2px] sm:size-18"
+                  >
                     <svg
                       viewBox="0 0 48 48"
-                      className="size-9 text-[#e2c690] sm:size-10"
+                      className="size-9 text-gold-soft sm:size-10"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth={1.4}
@@ -585,7 +669,7 @@ export function Momento2() {
                   </span>
                   <span
                     data-sello-label
-                    className="mt-3 font-sans text-[0.6rem] leading-snug tracking-[0.18em] text-paper/80 uppercase"
+                    className="eyebrow mt-3 text-[0.6rem] leading-snug text-paper/80"
                   >
                     {sello.label}
                   </span>
@@ -598,7 +682,7 @@ export function Momento2() {
         {/* ---------- cadena del proceso ---------- */}
         <div
           data-ui
-          className="absolute inset-x-6 bottom-7 z-20 sm:inset-x-10 lg:inset-x-14"
+          className="absolute right-20 bottom-7 left-6 z-20 sm:right-52 sm:left-10 lg:left-14"
         >
           <div data-rail aria-hidden>
             <div className="relative mx-[0.4rem] h-px bg-paper/18">
@@ -607,7 +691,7 @@ export function Momento2() {
                 className="absolute inset-0 origin-left bg-linear-to-r from-[#d6b26c] via-[#bf7442] to-[#8d8274]"
               />
             </div>
-            <ol className="-mt-[0.4rem] grid grid-cols-4">
+            <ol className="mt-[-0.4rem] grid grid-cols-4">
               {CHAIN.map((step, i) => (
                 <li
                   key={step}
@@ -626,7 +710,7 @@ export function Momento2() {
                   />
                   <span
                     data-node-label
-                    className="max-w-[5.2rem] font-sans text-[0.5rem] leading-snug tracking-[0.08em] text-paper/45 uppercase opacity-80 sm:max-w-none sm:text-[0.62rem] sm:tracking-[0.2em]"
+                    className="max-w-[5.2rem] font-sans text-[0.5rem] leading-snug font-medium tracking-[0.08em] text-paper/45 uppercase opacity-80 sm:max-w-none sm:text-[0.66rem] sm:tracking-[0.16em]"
                   >
                     {step}
                   </span>
@@ -634,6 +718,31 @@ export function Momento2() {
               ))}
             </ol>
           </div>
+        </div>
+
+        {/* ---------- barrido de salida ---------- */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-40 flex flex-col"
+        >
+          {SWEEP_COLORS.map((color, i) => {
+            const from = i % 2 ? "right" : "left";
+            return (
+              <div key={i} className="relative -my-px flex-1">
+                <span
+                  data-band="color"
+                  data-from={from}
+                  className="absolute inset-y-0 left-[-12%] w-[124%] rounded-full"
+                  style={{ backgroundColor: color }}
+                />
+                <span
+                  data-band="ink"
+                  data-from={from}
+                  className="absolute inset-y-0 left-[-12%] w-[124%] rounded-full bg-black"
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

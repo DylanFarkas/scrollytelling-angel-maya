@@ -1,19 +1,24 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Outfit } from "next/font/google";
+import { Geist, Instrument_Serif } from "next/font/google";
+import { NextMoment } from "../components/next-moment";
+import { Preloader } from "../components/preloader";
+import { SiteNav } from "../components/site-nav";
+import { SmoothScroll } from "../components/smooth-scroll";
+import { StoryRail } from "../components/story-rail";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
+const geist = Geist({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
   display: "swap",
-  variable: "--font-cormorant",
+  variable: "--font-geist",
 });
 
-const outfit = Outfit({
+const instrument = Instrument_Serif({
   subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
   display: "swap",
-  variable: "--font-outfit",
+  variable: "--font-instrument",
 });
 
 export const metadata: Metadata = {
@@ -26,9 +31,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="es"
-      className={`${cormorant.variable} ${outfit.variable} h-full antialiased`}
+      className={`${geist.variable} ${instrument.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-[#0A0A0A] text-paper">{children}</body>
+      <body className="min-h-full bg-ink text-paper">
+        <SmoothScroll />
+        <Preloader />
+        <SiteNav />
+        <StoryRail />
+        {children}
+        <NextMoment />
+      </body>
     </html>
   );
 }
